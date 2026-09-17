@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>최근 제목 조회</title>
+</head>
+<body>
+    <h1>최근 저장된 블로그 제목</h1>
+
+    <p th:text="${blog.title}">제목이 여기에 표시됩니다.</p>
+
+    <a href="/save?title=새로운 제목">예시 제목 저장하기</a>
+</body>
+</html>
