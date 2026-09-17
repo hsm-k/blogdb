@@ -16,6 +16,24 @@ public class BlogController {
         this.blogService = blogService;
     }
 
+    @GetMapping("/")
+    public String home(Model model) {
+        BlogTitleDTO blogTitleDTO = blogService.getLatestTitle();
+        model.addAttribute("blog", blogTitleDTO);
+
+        return "home";
+    }
+
+    @GetMapping("/admin/login")
+    public String adminLogin() {
+        return "admin-login";
+    }
+
+    @GetMapping("/admin")
+    public String admin() {
+        return "admin";
+    }
+
     @GetMapping("/save")
     public String save(@RequestParam String title) {
 

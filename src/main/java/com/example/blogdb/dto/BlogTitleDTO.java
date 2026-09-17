@@ -1,8 +1,5 @@
 package com.example.blogdb.dto;
 
-@AllArgsConstructor
-@NoArgsConstructor
-
 public class BlogTitleDTO {
 
     private final String title;

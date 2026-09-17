@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>나의 블로그</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" href="/css/style.css">
+</head>
+<body>
+<header class="site-header">
+    <div class="container navigation">
+        <a class="brand" href="/">나의 블로그</a>
+        <nav aria-label="주 메뉴"><a href="/">홈</a><a href="/admin/login">관리자 로그인</a></nav>
+    </div>
+</header>
+<main class="container">
+    <section class="hero">
+        <p class="eyebrow">MY PERSONAL SPACE</p>
+        <h1 th:text="${blog.title}">나의 블로그</h1>
+        <p>공부하며 얻은 기록과 생각을 차곡차곡 남기는 공간입니다.</p>
+        <a class="button" href="/admin/login">관리자 로그인</a>
+    </section>
+    <section aria-labelledby="post-heading">
+        <div class="section-heading"><h2 id="post-heading">최근 게시글</h2><span>기록을 둘러보세요</span></div>
+        <div class="post-grid">
+            <article class="post-card"><p class="post-date">2026. 09. 01</p><h3>블로그를 시작하며</h3><p>프로젝트를 만들며 배운 내용을 기록합니다.</p></article>
+            <article class="post-card"><p class="post-date">2026. 09. 02</p><h3>Spring Boot 첫 화면</h3><p>Controller와 HTML 화면이 연결되는 과정을 정리합니다.</p></article>
+            <article class="post-card"><p class="post-date">2026. 09. 03</p><h3>다음에 작성할 글</h3><p>관리자 기능을 추가하는 과정을 준비하고 있습니다.</p></article>
+        </div>
+    </section>
+</main>
+<footer class="site-footer"><div class="container">© 2026 나의 블로그</div></footer>
+</body>
+</html>
