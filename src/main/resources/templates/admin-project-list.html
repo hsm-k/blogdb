@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게임 프로젝트 관리 - PLAYLOG 관리자</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" href="/css/style.css">
+    <style>
+        .project-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid var(--line, #e2e8f0);
+        }
+        .project-table th, .project-table td {
+            padding: 14px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--line, #e2e8f0);
+        }
+        .project-table th {
+            background: #f8fafc;
+            font-size: 0.88rem;
+            color: var(--navy);
+            font-weight: 700;
+        }
+        .project-table td {
+            font-size: 0.92rem;
+        }
+        .btn-danger {
+            background: #ef4444;
+            color: #fff;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.82rem;
+            font-weight: 600;
+        }
+        .btn-edit {
+            background: var(--blue, #2563eb);
+            color: #fff;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.82rem;
+            font-weight: 600;
+            display: inline-block;
+        }
+        .btn-edit:hover {
+            background: #1d4ed8;
+        }
+        .action-cell {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+<header class="site-header">
+    <div class="container navigation">
+        <a class="brand" href="/">PLAYLOG</a>
+        <nav>
+            <a href="/admin">관리자 홈</a>
+            <a href="/admin/projects">프로젝트 관리</a>
+            <a href="/admin/posts">게시글 관리</a>
+            <a href="/projects">사용자 화면</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container admin-content">
+    <div class="section-heading">
+        <div>
+            <p class="eyebrow">PROJECT MANAGEMENT</p>
+            <h1>게임 프로젝트 관리</h1>
+        </div>
+        <a class="button" href="/admin/projects/create">새 프로젝트 등록</a>
+    </div>
+
+    <div th:if="${projects != null and !projects.isEmpty()}">
+        <table class="project-table">
+            <thead>
+                <tr>
+                    <th style="width: 60px;">ID</th>
+                    <th>프로젝트 이름</th>
+                    <th>장르</th>
+                    <th>상태</th>
+                    <th>진행도</th>
+                    <th>링크 정보</th>
+                    <th style="width: 130px;">관리</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="project : ${projects}">
+                    <td th:text="${project.id}">1</td>
+                    <td>
+                        <strong th:text="${project.title}">프로젝트 명</strong>
+                    </td>
+                    <td>
+                        <span class="category-badge" th:text="${project.genre}">장르</span>
+                    </td>
+                    <td th:text="${project.status}">개발 중</td>
+                    <td>
+                        <strong th:text="${project.progress} + '%'">0%</strong>
+                    </td>
+                    <td>
+                        <span th:if="${project.hasGithubUrl()}">📁 Git </span>
+                        <span th:if="${project.hasPlayUrl()}">🎮 WebGL</span>
+                    </td>
+                    <td>
+                        <div class="action-cell">
+                            <a class="btn-edit" th:href="@{/admin/projects/{id}/edit(id=${project.id})}">수정</a>
+                            <form th:action="@{/admin/projects/{id}/delete(id=${project.id})}" method="post"
+                                  onsubmit="return confirm('정말 삭제하시겠습니까?');" style="margin: 0;">
+                                <button type="submit" class="btn-danger">삭제</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <p class="empty-message" th:if="${projects == null or projects.isEmpty()}">
+        등록된 게임 프로젝트가 없습니다. '새 프로젝트 등록' 버튼을 눌러 프로젝트를 추가하세요.
+    </p>
+
+    <div style="margin-top: 24px;">
+        <a class="text-link" href="/admin">← 관리자 메인으로 돌아가기</a>
+    </div>
+</main>
+</body>
+</html>

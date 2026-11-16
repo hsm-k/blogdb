@@ -14,10 +14,16 @@ public class Blog {
 
     private String title;
 
+    private String subtitle;
+
     private String savedDate;
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public void setSubtitle(String subtitle) {
+        this.subtitle = subtitle;
     }
 
     public void setSavedDate(String savedDate) {
@@ -26,6 +32,10 @@ public class Blog {
 
     public String getTitle() {
         return title;
+    }
+
+    public String getSubtitle() {
+        return subtitle;
     }
 
     public String getSavedDate() {

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${project.title} + ' - 프로젝트 상세 | PLAYLOG'">프로젝트 상세 - PLAYLOG</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" href="/css/style.css">
+    <style>
+        .project-detail-panel {
+            width: min(100%, 820px);
+            padding: 36px;
+        }
+        .meta-badges {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .status-badge {
+            font-size: 0.82rem;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 20px;
+            background: #e0f2fe;
+            color: #0369a1;
+        }
+        .progress-box {
+            background: #f8fafc;
+            border: 1px solid var(--line, #e2e8f0);
+            border-radius: 10px;
+            padding: 18px;
+            margin: 20px 0;
+        }
+        .progress-bar-bg {
+            background: #e2e8f0;
+            border-radius: 8px;
+            height: 12px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+        .progress-bar-fill {
+            background: linear-gradient(90deg, #3b82f6, #6366f1);
+            height: 100%;
+            border-radius: 8px;
+        }
+        .info-card {
+            border: 1px solid var(--line, #e2e8f0);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            background: #fff;
+        }
+        .github-box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            background: #0f172a;
+            color: #fff;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .github-box a {
+            color: #38bdf8;
+            font-weight: 700;
+            text-decoration: none;
+        }
+        .play-panel {
+            border: 2px dashed #93c5fd;
+            background: #eff6ff;
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            margin: 24px 0;
+        }
+        .webgl-frame-wrapper {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background: #000;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-top: 16px;
+        }
+        .webgl-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+<header class="site-header">
+    <div class="container navigation">
+        <a class="brand" href="/">PLAYLOG</a>
+        <nav aria-label="주 메뉴">
+            <a href="/">홈</a>
+            <a href="/projects">게임 프로젝트</a>
+            <a href="/posts">개발일지</a>
+            <a href="/admin" th:if="${session.loginAdmin != null}">관리자 홈</a>
+            <a href="/admin/login" th:if="${session.loginAdmin == null}">관리자 로그인</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container page-center">
+    <article class="panel project-detail-panel">
+        <div class="meta-badges" style="display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; gap: 8px; align-items: center;">
+                <span class="category-badge" th:text="${project.genre}">장르</span>
+                <span class="status-badge" th:text="${project.status}">개발 중</span>
+            </div>
+            <div th:if="${session.loginAdmin != null}">
+                <a class="button" th:href="@{/admin/projects/{id}/edit(id=${project.id})}" style="padding: 6px 14px; font-size: 0.82rem;">⚙️ 프로젝트 수정</a>
+            </div>
+        </div>
+
+        <h1 style="font-size: 2rem; margin-bottom: 12px;" th:text="${project.title}">게임 프로젝트 제목</h1>
+        <p class="post-date" th:text="'최근 갱신일: ' + ${#temporals.format(project.updatedAt, 'yyyy년 MM월 dd일 HH:mm')}">2026년 11월 12일</p>
+
+        <!-- 진행도 관리 영역 -->
+        <section class="progress-box">
+            <div style="display: flex; justify-content: space-between; font-weight: 700; color: var(--navy);">
+                <span>🎯 개발 진행 상황 (마일스톤)</span>
+                <span th:text="${project.progress} + '% 달성'">75% 달성</span>
+            </div>
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" th:style="'width: ' + ${project.progress} + '%;'"></div>
+            </div>
+        </section>
+
+        <!-- 프로젝트 소개 -->
+        <section class="info-card">
+            <h2 style="font-size: 1.15rem; margin-bottom: 10px;">📖 게임 개요 및 기획 의도</h2>
+            <p style="line-height: 1.7; color: #334155; white-space: pre-line; margin: 0;"
+               th:text="${project.summary}">프로젝트 상세 설명</p>
+        </section>
+
+        <!-- GitHub 연동 정보 -->
+        <section class="github-box" th:if="${project.hasGithubUrl()}">
+            <div>
+                <p style="margin: 0; font-size: 0.85rem; color: #94a3b8;">GITHUB REPOSITORY</p>
+                <p style="margin: 4px 0 0; font-weight: 600;">소스코드 및 커밋 이력</p>
+            </div>
+            <a th:href="${project.githubUrl}" target="_blank" rel="noopener noreferrer">
+                저장소 바로가기 ↗
+            </a>
+        </section>
+
+        <!-- Unity WebGL 게임 플레이 화면 -->
+        <section class="play-panel" th:if="${project.hasPlayUrl()}">
+            <p style="font-size: 0.85rem; font-weight: 700; color: #2563eb; margin: 0;">UNITY WEBGL EXPERIENCE</p>
+            <h2 style="margin: 6px 0 12px; font-size: 1.3rem;">🎮 브라우저에서 게임 직접 플레이하기</h2>
+            <p style="color: var(--muted); font-size: 0.9rem; margin-bottom: 16px;">
+                별도 설치 없이 웹 브라우저에서 제작 중인 빌드를 직접 조작해볼 수 있습니다.
+            </p>
+            <a class="button" th:href="${project.playUrl}" target="_blank" style="padding: 10px 24px; font-size: 1rem;">
+                새 창에서 게임 실행하기 🚀
+            </a>
+        </section>
+
+        <div style="margin-top: 36px; display: flex; justify-content: space-between;">
+            <a class="text-link" href="/projects">← 프로젝트 목록으로</a>
+            <a class="text-link" href="/posts">관련 개발일지 보러가기 →</a>
+        </div>
+    </article>
+</main>
+
+<footer class="site-footer">
+    <div class="container">© 2026 PLAYLOG · 게임 개발 블로그</div>
+</footer>
+</body>
+</html>

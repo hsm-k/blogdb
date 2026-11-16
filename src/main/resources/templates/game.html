@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>슬라임 달리기</title>
+
+    <style>
+        body {
+            margin: 0;
+            background-color: #222;
+            text-align: center;
+        }
+
+        h1 {
+            color: white;
+        }
+
+        #unity-container {
+            width: 960px;
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        #unity-canvas {
+            width: 100%;
+            height: auto;
+            display: block;
+            background: #000;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>슬라임 달리기</h1>
+
+<div id="unity-container">
+    <canvas id="unity-canvas"></canvas>
+</div>
+
+<script src="/unity-game/Build/UnityWebGL.loader.js"></script>
+
+<script>
+    createUnityInstance(
+        document.querySelector("#unity-canvas"),
+        {
+            dataUrl: "/unity-game/Build/UnityWebGL.data.gz",
+            frameworkUrl: "/unity-game/Build/UnityWebGL.framework.js.gz",
+            codeUrl: "/unity-game/Build/UnityWebGL.wasm.gz"
+        }
+    );
+</script>
+
+</body>
+
+</html>

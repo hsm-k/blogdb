@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시글 목록 - 나의 블로그</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" href="/css/style.css">
+</head>
+<body>
+<header class="site-header">
+    <div class="container navigation">
+        <a class="brand" href="/">PLAYLOG</a>
+        <nav aria-label="주 메뉴">
+            <a href="/">홈</a>
+            <a href="/projects">게임 프로젝트</a>
+            <a href="/posts">개발일지</a>
+            <a href="/admin/login">관리자 로그인</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container page-center">
+    <div class="panel" style="width: min(100%, 780px);">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">DEVLOG</p>
+                <h1>게임 개발일지</h1>
+            </div>
+            <span th:text="'총 ' + ${posts != null ? posts.size() : 0} + '개의 글'">총 0개의 글</span>
+        </div>
+
+        <!-- 저장된 게시글 목록 표시 및 제목 누르면 상세 이동 -->
+        <div class="post-grid" style="margin-top: 24px;" th:if="${posts != null and !posts.isEmpty()}">
+            <article class="post-card" th:each="post : ${posts}">
+                <div style="display: flex; justify-content: space-between; align-items: baseline;">
+                    <span class="category-badge" th:text="${post.category}">카테고리</span>
+                    <span class="post-date" th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd')}">2026-09-01</span>
+                </div>
+                <h3 style="margin: 12px 0 8px;">
+                    <a th:href="@{/posts/{id}(id=${post.id})}" th:text="${post.title}">게시글 제목</a>
+                </h3>
+                <p th:if="${post.content != null and !#strings.isEmpty(post.content)}"
+                   th:text="${#strings.abbreviate(post.content, 120)}"
+                   style="color: var(--muted); margin: 0;">내용 미리보기</p>
+            </article>
+        </div>
+
+        <!-- 빈 목록 안내 -->
+        <p class="empty-message" style="margin-top: 24px;" th:if="${posts == null or posts.isEmpty()}">
+            아직 등록된 게시글이 없습니다.
+        </p>
+
+        <div style="margin-top: 28px;">
+            <a class="text-link" href="/">← 홈으로 돌아가기</a>
+        </div>
+    </div>
+</main>
+
+<footer class="site-footer">
+    <div class="container">© 2026 나의 블로그</div>
+</footer>
+</body>
+</html>

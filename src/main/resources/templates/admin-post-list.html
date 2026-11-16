@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시글 관리</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" href="/css/style.css">
+</head>
+<body>
+<header class="site-header">
+    <div class="container navigation">
+        <a class="brand" href="/">나의 블로그</a>
+        <nav>
+            <a href="/admin">관리자</a>
+            <a href="/admin/posts">게시글 관리</a>
+            <a href="/posts">사용자 화면</a>
+            <a href="/">홈</a>
+        </nav>
+    </div>
+</header>
+<main class="container admin-content">
+    <div class="section-heading">
+        <div>
+            <p class="eyebrow">POST MANAGEMENT</p>
+            <h1>게시글 관리</h1>
+        </div>
+        <a class="button" href="/admin/posts/create">새 게시글 작성</a>
+    </div>
+
+    <div class="post-management-list" th:if="${posts != null and !posts.isEmpty()}">
+        <article class="post-card" th:each="post : ${posts}">
+            <p class="post-date" th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm')}">작성일</p>
+            <h2 th:text="${post.title}">제목</h2>
+            <p><span class="category-badge" th:text="${post.category}">카테고리</span></p>
+            <a class="text-link" th:href="@{/admin/posts/{id}(id=${post.id})}">상세 보기 →</a>
+        </article>
+    </div>
+
+    <p class="empty-message" th:if="${posts == null or posts.isEmpty()}">
+        아직 작성한 게시글이 없습니다. 첫 게시글을 작성해 보세요.
+    </p>
+</main>
+</body>
+</html>

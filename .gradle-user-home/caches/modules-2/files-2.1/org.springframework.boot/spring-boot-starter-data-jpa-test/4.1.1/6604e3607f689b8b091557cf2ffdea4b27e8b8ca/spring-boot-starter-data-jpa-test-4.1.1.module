@@ -1,0 +1,160 @@
+{
+  "formatVersion": "1.1",
+  "component": {
+    "group": "org.springframework.boot",
+    "module": "spring-boot-starter-data-jpa-test",
+    "version": "4.1.1",
+    "attributes": {
+      "org.gradle.status": "release"
+    }
+  },
+  "createdBy": {
+    "gradle": {
+      "version": "9.7.0"
+    }
+  },
+  "variants": [
+    {
+      "name": "apiElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-api"
+      },
+      "dependencies": [
+        {
+          "group": "org.springframework.boot",
+          "module": "spring-boot-starter-data-jpa",
+          "version": {
+            "requires": "4.1.1"
+          }
+        },
+        {
+          "group": "org.springframework.boot",
+          "module": "spring-boot-starter-test",
+          "version": {
+            "requires": "4.1.1"
+          }
+        },
+        {
+          "group": "org.springframework.boot",
+          "module": "spring-boot-starter-jdbc-test",
+          "version": {
+            "requires": "4.1.1"
+          }
+        },
+        {
+          "group": "org.springframework.boot",
+          "module": "spring-boot-data-jpa-test",
+          "version": {
+            "requires": "4.1.1"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "spring-boot-starter-data-jpa-test-4.1.1.jar",
+          "url": "spring-boot-starter-data-jpa-test-4.1.1.jar",
+          "size": 4764,
+          "sha512": "82cbb04208a9abd47d98a0625e69803daea3c53bace2407fd53d494c7a6b9f412cc9998b3c4dc605a7e892bbf083385632c7240de1f2f8023cfb45f3e49f255b",
+          "sha256": "f22fa6418214a16a41857653b2a00195b479f2dee5890714130d2e32eb65f839",
+          "sha1": "7e4a970654f76f33f86a5454e25480a6ccf6154b",
+          "md5": "0de6b49050e5baf3b50f9925d7c26ebd"
+        }
+      ]
+    },
+    {
+      "name": "runtimeElements",
+      "attributes": {
+        "org.gradle.category": "library",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.jvm.version": 17,
+        "org.gradle.libraryelements": "jar",
+        "org.gradle.usage": "java-runtime"
+      },
+      "dependencies": [
+        {
+          "group": "org.springframework.boot",
+          "module": "spring-boot-starter-data-jpa",
+          "version": {
+            "requires": "4.1.1"
+          }
+        },
+        {
+          "group": "org.springframework.boot",
+          "module": "spring-boot-starter-test",
+          "version": {
+            "requires": "4.1.1"
+          }
+        },
+        {
+          "group": "org.springframework.boot",
+          "module": "spring-boot-starter-jdbc-test",
+          "version": {
+            "requires": "4.1.1"
+          }
+        },
+        {
+          "group": "org.springframework.boot",
+          "module": "spring-boot-data-jpa-test",
+          "version": {
+            "requires": "4.1.1"
+          }
+        }
+      ],
+      "files": [
+        {
+          "name": "spring-boot-starter-data-jpa-test-4.1.1.jar",
+          "url": "spring-boot-starter-data-jpa-test-4.1.1.jar",
+          "size": 4764,
+          "sha512": "82cbb04208a9abd47d98a0625e69803daea3c53bace2407fd53d494c7a6b9f412cc9998b3c4dc605a7e892bbf083385632c7240de1f2f8023cfb45f3e49f255b",
+          "sha256": "f22fa6418214a16a41857653b2a00195b479f2dee5890714130d2e32eb65f839",
+          "sha1": "7e4a970654f76f33f86a5454e25480a6ccf6154b",
+          "md5": "0de6b49050e5baf3b50f9925d7c26ebd"
+        }
+      ]
+    },
+    {
+      "name": "javadocElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "javadoc",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "spring-boot-starter-data-jpa-test-4.1.1-javadoc.jar",
+          "url": "spring-boot-starter-data-jpa-test-4.1.1-javadoc.jar",
+          "size": 4764,
+          "sha512": "82cbb04208a9abd47d98a0625e69803daea3c53bace2407fd53d494c7a6b9f412cc9998b3c4dc605a7e892bbf083385632c7240de1f2f8023cfb45f3e49f255b",
+          "sha256": "f22fa6418214a16a41857653b2a00195b479f2dee5890714130d2e32eb65f839",
+          "sha1": "7e4a970654f76f33f86a5454e25480a6ccf6154b",
+          "md5": "0de6b49050e5baf3b50f9925d7c26ebd"
+        }
+      ]
+    },
+    {
+      "name": "sourcesElements",
+      "attributes": {
+        "org.gradle.category": "documentation",
+        "org.gradle.dependency.bundling": "external",
+        "org.gradle.docstype": "sources",
+        "org.gradle.usage": "java-runtime"
+      },
+      "files": [
+        {
+          "name": "spring-boot-starter-data-jpa-test-4.1.1-sources.jar",
+          "url": "spring-boot-starter-data-jpa-test-4.1.1-sources.jar",
+          "size": 4764,
+          "sha512": "82cbb04208a9abd47d98a0625e69803daea3c53bace2407fd53d494c7a6b9f412cc9998b3c4dc605a7e892bbf083385632c7240de1f2f8023cfb45f3e49f255b",
+          "sha256": "f22fa6418214a16a41857653b2a00195b479f2dee5890714130d2e32eb65f839",
+          "sha1": "7e4a970654f76f33f86a5454e25480a6ccf6154b",
+          "md5": "0de6b49050e5baf3b50f9925d7c26ebd"
+        }
+      ]
+    }
+  ]
+}

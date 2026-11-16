@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>콘텐츠 블록 저장</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" href="/css/style.css">
+</head>
+<body>
+<header class="site-header">
+    <div class="container navigation">
+        <a class="brand" href="/">PLAYLOG</a>
+        <nav>
+            <a href="/admin">관리자</a>
+            <a href="/admin/posts">게시글 관리</a>
+        </nav>
+    </div>
+</header>
+
+<main class="container content-write-page">
+    <section class="content-write-heading">
+        <p class="eyebrow">CONTENT MODULE</p>
+        <h1>콘텐츠 블록 저장</h1>
+        <p>대상 게시글을 먼저 선택한 뒤, 텍스트 또는 이미지 콘텐츠 블록을 저장합니다.</p>
+    </section>
+
+    <section class="content-form-grid" th:if="${!posts.isEmpty()}">
+        <article class="panel content-save-panel">
+            <p class="eyebrow">TEXT</p>
+            <h2>텍스트 콘텐츠 저장</h2>
+            <p class="form-intro">입력한 문장은 <code>content_module</code> 테이블의 TEXT 블록으로 저장됩니다.</p>
+            <form id="textUploadForm" th:action="@{/content/text}" method="post">
+                <label for="textPostId">저장할 게시글</label>
+                <select id="textPostId" name="postId" required>
+                    <option value="" selected disabled>게시글을 선택하세요</option>
+                    <option th:each="post : ${posts}" th:value="${post.id}"
+                            th:text="${'[' + post.category + '] ' + post.title}">게시글 제목</option>
+                </select>
+
+                <label for="textContent">텍스트 내용</label>
+                <textarea id="textContent" name="text" placeholder="저장할 텍스트를 입력하세요" required></textarea>
+                <p id="textSaveMessage" hidden></p>
+                <button type="submit">텍스트 저장</button>
+            </form>
+        </article>
+
+        <article class="panel content-save-panel">
+            <p class="eyebrow">IMAGE</p>
+            <h2>이미지 콘텐츠 저장</h2>
+            <p class="form-intro">이미지 파일은 서버 폴더에 저장되고, 저장 경로는 IMAGE 블록으로 저장됩니다.</p>
+            <form id="imageUploadForm" th:action="@{/content/image}" method="post" enctype="multipart/form-data">
+                <label for="imagePostId">저장할 게시글</label>
+                <select id="imagePostId" name="postId" required>
+                    <option value="" selected disabled>게시글을 선택하세요</option>
+                    <option th:each="post : ${posts}" th:value="${post.id}"
+                            th:text="${'[' + post.category + '] ' + post.title}">게시글 제목</option>
+                </select>
+
+                <label for="file">이미지 파일</label>
+                <label class="file-drop-zone" for="file">
+                    <span class="upload-symbol">+</span>
+                    <strong>이미지 파일 선택</strong>
+                    <small>JPG, PNG, GIF 등 / 최대 10MB</small>
+                    <input id="file" name="file" type="file" accept="image/*" required>
+                </label>
+                <img id="imagePreview" class="image-preview" alt="선택한 이미지 미리보기" hidden>
+                <p id="imageSaveMessage" hidden></p>
+                <button type="submit">이미지 저장</button>
+            </form>
+        </article>
+    </section>
+
+    <p class="empty-message" th:if="${posts.isEmpty()}">
+        콘텐츠를 연결할 게시글이 없습니다. 먼저 게시글을 작성해 주세요.
+    </p>
+
+    <section class="saved-content-section">
+        <div class="section-heading">
+            <div>
+                <p class="eyebrow">POSTS</p>
+                <h2>콘텐츠를 추가할 게시글</h2>
+            </div>
+            <span th:text="${posts.size()} + '개'">0개</span>
+        </div>
+
+        <div class="saved-content-grid" th:if="${!posts.isEmpty()}">
+            <article class="saved-content-card" th:each="post : ${posts}">
+                <span class="category-badge" th:text="${post.category}">카테고리</span>
+                <p class="saved-content-title" th:text="${post.title}">게시글 제목</p>
+                <a class="text-link" th:href="@{/admin/posts/{id}(id=${post.id})}">게시글과 콘텐츠 블록 보기</a>
+            </article>
+        </div>
+    </section>
+</main>
+
+<script>
+    const fileInput = document.getElementById('file');
+    const imagePreview = document.getElementById('imagePreview');
+    const textUploadForm = document.getElementById('textUploadForm');
+    const imageUploadForm = document.getElementById('imageUploadForm');
+    const textSaveMessage = document.getElementById('textSaveMessage');
+    const imageSaveMessage = document.getElementById('imageSaveMessage');
+
+    fileInput.addEventListener('change', () => {
+        const selectedFile = fileInput.files[0];
+        if (!selectedFile) {
+            imagePreview.hidden = true;
+            return;
+        }
+
+        imagePreview.src = URL.createObjectURL(selectedFile);
+        imagePreview.hidden = false;
+    });
+
+    function showMessage(messageBox, className, message) {
+        messageBox.className = className;
+        messageBox.textContent = message;
+        messageBox.hidden = false;
+    }
+
+    async function saveContent(event, form, messageBox) {
+        event.preventDefault();
+
+        const submitButton = form.querySelector('button[type="submit"]');
+        submitButton.disabled = true;
+
+        try {
+            const response = await fetch(form.action, {
+                method: 'POST',
+                body: new FormData(form)
+            });
+            const result = await response.json();
+
+            if (!response.ok) {
+                throw new Error(result.message);
+            }
+
+            showMessage(messageBox, 'save-message', result.message);
+            setTimeout(() => window.location.reload(), 700);
+        } catch (error) {
+            showMessage(messageBox, 'form-error', error.message);
+            submitButton.disabled = false;
+        }
+    }
+
+    textUploadForm.addEventListener('submit', (event) => saveContent(event, textUploadForm, textSaveMessage));
+    imageUploadForm.addEventListener('submit', (event) => saveContent(event, imageUploadForm, imageSaveMessage));
+</script>
+</body>
+</html>
